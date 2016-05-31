@@ -11,11 +11,11 @@ PRODUCT_NAME=${MODEL}${CARRIER}
 
 BUILD_WHERE=$(pwd)
 BUILD_KERNEL_DIR=$BUILD_WHERE
-BUILD_ROOT_DIR=$BUILD_KERNEL_DIR/../..
+BUILD_ROOT_DIR=$BUILD_KERNEL_DIR/../kernel_out
 BUILD_KERNEL_OUT_DIR=$BUILD_ROOT_DIR/android/out/target/product/$PRODUCT_NAME/obj/KERNEL_OBJ
 PRODUCT_OUT=$BUILD_ROOT_DIR/android/out/target/product/$PRODUCT_NAME
 
-BUILD_CROSS_COMPILE=$BUILD_ROOT_DIR/android/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin/arm-eabi-
+BUILD_CROSS_COMPILE=$BUILD_KERNEL_DIR/../tc/bin/arm-eabi-
 BUILD_JOB_NUMBER=`grep processor /proc/cpuinfo|wc -l`
 
 # Default Python version is 2.7
@@ -23,10 +23,10 @@ mkdir -p bin
 ln -sf /usr/bin/python2.7 ./bin/python
 export PATH=$(pwd)/bin:$PATH
 KERNEL_DEFCONFIG=apq8084_sec_defconfig
-DEBUG_DEFCONFIG=apq8084_sec_eng_defconfig
+DEBUG_DEFCONFIG=
 SELINUX_DEFCONFIG=selinux_defconfig
-SELINUX_LOG_DEFCONFIG=selinux_log_defconfig
-DMVERITY_DEFCONFIG=dmverity_defconfig
+SELINUX_LOG_DEFCONFIG=
+DMVERITY_DEFCONFIG=
 
 #sed -i.bak "s/CONFIG_MODVERSIONS=y/CONFIG_MODVERSIONS=n/g" ${BUILD_KERNEL_DIR}/arch/arm/configs/${KERNEL_DEFCONFIG}
 
@@ -153,61 +153,7 @@ FUNC_BUILD_KERNEL()
 	echo ""
 }
 
-FUNC_MKBOOTIMG()
-{
-	echo ""
-	echo "==================================="
-	echo "START : FUNC_MKBOOTIMG"
-	echo "==================================="
-	echo ""
-	MKBOOTIMGTOOL=$BUILD_ROOT_DIR/android/kernel/tools/mkbootimg
 
-	if ! [ -e $MKBOOTIMGTOOL ] ; then
-		if ! [ -d $BUILD_ROOT_DIR/android/out/host/linux-x86/bin ] ; then
-			mkdir -p $BUILD_ROOT_DIR/android/out/host/linux-x86/bin
-		fi
-		cp $BUILD_ROOT_DIR/anroid/kernel/tools/mkbootimg $MKBOOTIMGTOOL
-	fi
-
-	echo "Making boot.img ..."
-	echo "	$MKBOOTIMGTOOL --kernel $KERNEL_ZIMG \
-			--ramdisk $PRODUCT_OUT/ramdisk.img \
-			--output $PRODUCT_OUT/boot.img \
-			--cmdline "$BOARD_KERNEL_CMDLINE" \
-			--base $BOARD_KERNEL_BASE \
-			--pagesize $BOARD_KERNEL_PAGESIZE \
-			--ramdisk_offset $BOARD_RAMDISK_OFFSET \
-			--tags_offset $BOARD_KERNEL_TAGS_OFFSET \
-			--dt $INSTALLED_DTIMAGE_TARGET"
-			
-	$MKBOOTIMGTOOL --kernel $KERNEL_ZIMG \
-			--ramdisk $PRODUCT_OUT/ramdisk.img \
-			--output $PRODUCT_OUT/boot.img \
-			--cmdline "$BOARD_KERNEL_CMDLINE" \
-			--base $BOARD_KERNEL_BASE \
-			--pagesize $BOARD_KERNEL_PAGESIZE \
-			--ramdisk_offset $BOARD_RAMDISK_OFFSET \
-			--tags_offset $BOARD_KERNEL_TAGS_OFFSET \
-			--dt $INSTALLED_DTIMAGE_TARGET
-	
-	cd $PRODUCT_OUT
-	tar cvf boot_${MODEL}_${CARRIER}.tar boot.img
-
-	cd $BUILD_ROOT_DIR
-	if ! [ -d output ] ; then
-		mkdir -p output
-	fi
-
-	mv $PRODUCT_OUT/boot_${MODEL}_${CARRIER}.tar output/
-
-	cd ~
-	
-	echo ""
-	echo "==================================="
-	echo "END   : FUNC_MKBOOTIMG"
-	echo "==================================="
-	echo ""	
-}
 
 SECFUNC_PRINT_HELP()
 {
@@ -239,7 +185,7 @@ rm -rf ./build.log
 
 	FUNC_BUILD_KERNEL
 	#FUNC_RAMDISK_EXTRACT_N_COPY
-	FUNC_MKBOOTIMG
+	cp $BUILD_KERNEL_OUT_DIR/arch/arm/boot/zImage $BUILD_KERNEL_DIR/zImage
 
     END_TIME=`date +%s`
 	
