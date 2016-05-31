@@ -11,6 +11,7 @@ PRODUCT_NAME=${MODEL}${CARRIER}
 
 BUILD_WHERE=$(pwd)
 BUILD_KERNEL_DIR=$BUILD_WHERE
+MKBOOT_CMD=$BUILD_KERNEL_DIR/mkboot
 BUILD_ROOT_DIR=$BUILD_KERNEL_DIR/../kernel_out
 BUILD_KERNEL_OUT_DIR=$BUILD_ROOT_DIR/android/out/target/product/$PRODUCT_NAME/obj/KERNEL_OBJ
 PRODUCT_OUT=$BUILD_ROOT_DIR/android/out/target/product/$PRODUCT_NAME
@@ -153,6 +154,19 @@ FUNC_BUILD_KERNEL()
 	echo ""
 }
 
+FUNC_BUILD_BOOT()
+{
+	cp $BUILD_KERNEL_OUT_DIR/arch/arm/boot/zImage $MKBOOT_CMD/stock/zImage
+	cd $MKBOOT_CMD
+	./mkboot stock boot.img
+	echo ""
+	echo "================================="
+	echo "END   : FUNC_BUILD_BOOT"
+	echo "================================="
+	echo ""
+	
+}
+
 
 
 SECFUNC_PRINT_HELP()
@@ -184,8 +198,8 @@ rm -rf ./build.log
     START_TIME=`date +%s`
 
 	FUNC_BUILD_KERNEL
-	#FUNC_RAMDISK_EXTRACT_N_COPY
-	cp $BUILD_KERNEL_OUT_DIR/arch/arm/boot/zImage $BUILD_KERNEL_DIR/zImage
+	FUNC_BUILD_BOOT
+	
 
     END_TIME=`date +%s`
 	
