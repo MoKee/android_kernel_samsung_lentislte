@@ -1,0 +1,12 @@
+kernel=zImage
+ramdisk=ramdisk
+dt=dt.img
+page_size=2048
+kernel_size=9507496
+ramdisk_size=2905213
+dtb_size=1171456
+base_addr=0x00000000
+kernel_offset=0x00008000
+ramdisk_offset=0x02600000
+tags_offset=0x02400000
+cmd_line="console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3b7 dwc3_msm.cpu_to_affin=1"
