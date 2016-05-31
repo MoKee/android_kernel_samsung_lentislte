@@ -156,7 +156,7 @@ FUNC_BUILD_KERNEL()
 
 FUNC_BUILD_BOOT()
 {
-	cp $BUILD_KERNEL_OUT_DIR/arch/arm/boot/zImage $MKBOOT_CMD/stock/zImage
+	cp $BUILD_KERNEL_OUT_DIR/arch/arm/boot/zImage $MKBOOT_CMD/stock/kernel
 	cd $MKBOOT_CMD
 	./mkboot stock boot.img
 	echo ""
