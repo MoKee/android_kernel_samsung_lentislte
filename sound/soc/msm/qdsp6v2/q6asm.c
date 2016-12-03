@@ -377,7 +377,6 @@ static void q6asm_session_free(struct audio_client *ac)
 	return;
 }
 
-int send_asm_custom_topology(struct audio_client *ac)
 static uint32_t q6asm_get_next_buf(uint32_t curr_buf, uint32_t max_buf_cnt)
 {
 	pr_debug("%s: curr_buf = %d, max_buf_cnt = %d\n",
@@ -386,7 +385,7 @@ static uint32_t q6asm_get_next_buf(uint32_t curr_buf, uint32_t max_buf_cnt)
 	return (curr_buf >= max_buf_cnt) ? 0 : curr_buf;
 }
 
-void send_asm_custom_topology(struct audio_client *ac)
+int send_asm_custom_topology(struct audio_client *ac)
 {
 	struct acdb_cal_block		cal_block;
 	struct cmd_set_topologies	asm_top;
