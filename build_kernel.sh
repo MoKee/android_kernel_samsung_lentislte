@@ -1,11 +1,10 @@
 #!/bin/bash
 
 export ARCH=arm
-export PATH=$(pwd)/../PLATFORM/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin:$PATH
-
+export CROSS_COMPILE=/home/callmesuper/Mokee/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
 mkdir output
 
-make -C $(pwd) O= output VARIANT_DEFCONFIG=apq8084_sec_lentislte_skt_defconfig apq8084_sec_defconfig SELINUX_DEFCONFIG=selinux_defconfig
-make -j64 -C $(pwd) O=output CROSS_COMPILE=arm-eabi-
+make -C $(pwd) O=output emotion_cm_defconfig VARIANT_DEFCONFIG=apq8084_sec_lentislte_skt_defconfig SELINUX_DEFCONFIG=selinux_defconfig
+make -C $(pwd) O=output
 
-cp output/arch/arm/boot/zImage $(pwd)/arch/arm/boot/zImage
+cp output/arch/arm/boot/Image $(pwd)/arch/arm/boot/zImage

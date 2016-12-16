@@ -16,14 +16,14 @@ BUILD_ROOT_DIR=$BUILD_KERNEL_DIR/../kernel_out
 BUILD_KERNEL_OUT_DIR=$BUILD_ROOT_DIR/android/out/target/product/$PRODUCT_NAME/obj/KERNEL_OBJ
 PRODUCT_OUT=$BUILD_ROOT_DIR/android/out/target/product/$PRODUCT_NAME
 
-BUILD_CROSS_COMPILE=$BUILD_KERNEL_DIR/../tc/bin/arm-eabi-
+BUILD_CROSS_COMPILE=/home/callmesuper/Mokee/prebuilts/gcc/linux-x86/arm/arm-eabi-4.8/bin/arm-eabi-
 BUILD_JOB_NUMBER=`grep processor /proc/cpuinfo|wc -l`
 
 # Default Python version is 2.7
 mkdir -p bin
 ln -sf /usr/bin/python2.7 ./bin/python
 export PATH=$(pwd)/bin:$PATH
-KERNEL_DEFCONFIG=apq8084_sec_defconfig
+KERNEL_DEFCONFIG=emotion_cm_defconfig
 DEBUG_DEFCONFIG=
 SELINUX_DEFCONFIG=selinux_defconfig
 SELINUX_LOG_DEFCONFIG=
