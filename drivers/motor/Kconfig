@@ -1,6 +1,3 @@
-#
-# Immersion TouchSense Player driver configuration
-#
 menuconfig VIBETONZ
 	tristate "Vibetonz"
 	default y
@@ -29,3 +26,4 @@ config MOTOR_DRV_MAX77804K
 	tristate "Maxim MAX77804K motor"
 	default n
 	depends on MFD_MAX77804K
+

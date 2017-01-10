@@ -1,5 +1,5 @@
 #
-#  makefile for tspdrv kernel module
+#  Makefile for the vibrator driver ICs with vibrator driver
 #
 
 obj-$(CONFIG_VIBETONZ) += vibrator.o
