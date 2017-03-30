@@ -714,7 +714,7 @@ static int max77823_chg_get_property(struct power_supply *psy,
 		break;
 	case POWER_SUPPLY_PROP_CURRENT_AVG:
 		//AOSP expects the charging current to be in microamperes frameworks/base/core/java/android/os/BatteryManager.java L263
-		val->intval = max77843_get_input_current(charger) * 1000;
+		val->intval = max77823_get_input_current(charger) * 1000;
 		break;
 	case POWER_SUPPLY_PROP_CURRENT_NOW:
 		val->intval = max77823_get_input_current(charger);
